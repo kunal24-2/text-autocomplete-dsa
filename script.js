@@ -3,10 +3,10 @@ const suggestions = document.getElementById("suggestions");
 
 let words = [];
 
-// ✅ your GitHub words.txt link
-const GITHUB_RAW = "https://raw.githubusercontent.com/kunal24-2/Text-Autocomplete/main/words.txt";
+// ✅ Correct GitHub raw link for your repository
+const GITHUB_RAW = "https://raw.githubusercontent.com/kunal24-2/text-autocomplete-dsa/main/words.txt";
 
-// Load dictionary
+// Load dictionary file
 fetch(GITHUB_RAW)
   .then(response => {
     if (!response.ok) throw new Error("❌ Cannot load dictionary file!");
@@ -21,7 +21,7 @@ fetch(GITHUB_RAW)
     alert("⚠️ Unable to load word list. Check your GitHub link!");
   });
 
-// Handle search
+// Handle autocomplete
 searchBox.addEventListener("input", () => {
   const input = searchBox.value.toLowerCase();
   suggestions.innerHTML = "";
@@ -40,8 +40,12 @@ searchBox.addEventListener("input", () => {
   filtered.forEach(word => {
     const li = document.createElement("li");
     li.textContent = word;
+    li.classList.add("suggestion-item");
+    li.addEventListener("click", () => {
+      searchBox.value = word;
+      suggestions.innerHTML = "";
+    });
     suggestions.appendChild(li);
   });
 });
-
 
