@@ -3,10 +3,10 @@ const suggestions = document.getElementById("suggestions");
 
 let words = [];
 
-// ✅ Correct GitHub raw link for your repository
-const GITHUB_RAW = "https://raw.githubusercontent.com/kunal24-2/text-autocomplete-dsa/main/words.txt";
+// ✅ This is an online dictionary link from GitHub (publicly available)
+const GITHUB_RAW = "https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt";
 
-// Load dictionary file
+// Load the dictionary from GitHub
 fetch(GITHUB_RAW)
   .then(response => {
     if (!response.ok) throw new Error("❌ Cannot load dictionary file!");
@@ -14,14 +14,14 @@ fetch(GITHUB_RAW)
   })
   .then(text => {
     words = text.split(/\s+/);
-    console.log(`✅ Loaded ${words.length} words from GitHub`);
+    console.log(`✅ Loaded ${words.length} words from GitHub dictionary`);
   })
   .catch(error => {
     console.error("Error loading words.txt:", error);
-    alert("⚠️ Unable to load word list. Check your GitHub link!");
+    alert("⚠️ Unable to load word list. Please check your internet connection.");
   });
 
-// Handle autocomplete
+// Handle input and show suggestions
 searchBox.addEventListener("input", () => {
   const input = searchBox.value.toLowerCase();
   suggestions.innerHTML = "";
@@ -30,7 +30,7 @@ searchBox.addEventListener("input", () => {
 
   const filtered = words
     .filter(word => word.toLowerCase().startsWith(input))
-    .slice(0, 10);
+    .slice(0, 10); // show only top 10 suggestions
 
   if (filtered.length === 0) {
     suggestions.innerHTML = "<li>No suggestions found</li>";
@@ -48,4 +48,3 @@ searchBox.addEventListener("input", () => {
     suggestions.appendChild(li);
   });
 });
-
